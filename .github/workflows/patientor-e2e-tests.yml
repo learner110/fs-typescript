@@ -12,28 +12,32 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '18'
 
       - name: Install backend dependencies
         run: npm ci
-        working-directory: ./patientor/backend
+        working-directory: patientor/backend
 
       - name: Start backend
         run: npm start &
-        working-directory: ./patientor/backend
+        working-directory: patientor/backend
 
       - name: Install frontend dependencies
         run: npm ci
-        working-directory: ./patientor/frontend
+        working-directory: patientor/frontend
 
       - name: Start frontend
         run: npm run dev &
-        working-directory: ./patientor/frontend
+        working-directory: patientor/frontend
 
       - name: Install E2E test dependencies
         run: npm ci
-        working-directory: ./patientor-tests
+        working-directory: patientor-tests
+
+      - name: Install Playwright browsers
+        run: npx playwright install
+        working-directory: patientor-tests
 
       - name: Run E2E tests
         run: npm test
-        working-directory: ./patientor-tests
+        working-directory: patientor-tests

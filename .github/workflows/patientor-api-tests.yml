@@ -12,20 +12,20 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
 
       - name: Install backend dependencies
         run: npm ci
-        working-directory: patientor/backend
+        working-directory: ./patientor/backend
 
       - name: Start backend
         run: npm start &
-        working-directory: patientor/backend
+        working-directory: ./patientor/backend
 
       - name: Install test dependencies
         run: npm ci
-        working-directory: patientor-api-tests
+        working-directory: ./patientor-api-tests
 
       - name: Run API tests
         run: npm test
-        working-directory: patientor-api-tests
+        working-directory: ./patientor-api-tests

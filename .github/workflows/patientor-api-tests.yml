@@ -1,0 +1,31 @@
+name: Patientor API Tests
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: patientor/backend
+
+      - name: Start backend
+        run: npm start &
+        working-directory: patientor/backend
+
+      - name: Install test dependencies
+        run: npm ci
+        working-directory: patientor-api-tests
+
+      - name: Run API tests
+        run: npm test
+        working-directory: patientor-api-tests

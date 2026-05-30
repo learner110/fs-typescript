@@ -1,0 +1,31 @@
+name: Health app E2E Tests
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: healthapp
+
+      - name: Start backend
+        run: npm start &
+        working-directory: healthapp
+
+      - name: Install test dependencies
+        run: npm ci
+        working-directory: healthapp-tests
+
+      - name: Run E2E tests
+        run: npm test
+        working-directory: healthapp-tests

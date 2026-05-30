@@ -1,0 +1,33 @@
+import { z } from 'zod';
+
+export const Weather = {
+  Sunny: 'sunny',
+  Rainy: 'rainy',
+  Cloudy: 'cloudy',
+  Stormy: 'stormy',
+  Windy: 'windy',
+} as const;
+export type Weather = typeof Weather[keyof typeof Weather];
+
+export const Visibility = {
+  Great: 'great',
+  Good: 'good',
+  Ok: 'ok',
+  Poor: 'poor',
+} as const;
+export type Visibility = typeof Visibility[keyof typeof Visibility];
+
+export const NewEntrySchema = z.object({
+  weather: z.enum([Weather.Sunny, Weather.Rainy, Weather.Cloudy, Weather.Stormy, Weather.Windy]),
+  visibility: z.enum([Visibility.Great, Visibility.Good, Visibility.Ok, Visibility.Poor]),
+  date: z.string().date(),
+  comment: z.string().optional(),
+});
+
+export type NewDiaryEntry = z.infer<typeof NewEntrySchema>;
+
+export interface DiaryEntry extends NewDiaryEntry {
+  id: number;
+}
+
+export type NonSensitiveDiaryEntry = Omit<DiaryEntry, 'comment'>;
